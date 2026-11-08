@@ -197,6 +197,7 @@ function finishCurrent(generated, reason) {
   current.entry.pending = false;
   const text = TinyChat.formatReply(current.request.promptSuffix, generated, reason);
   updateCurrent(text);
+  $("announce").textContent = t("chat.clerk") + ": § " + current.entry.number + " " + text;
   current = null;
 }
 

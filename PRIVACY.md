@@ -3,8 +3,9 @@
 The TinyLawParody web page **collects nothing**.
 
 - No analytics, no cookies, no tracking, no accounts, no advertising.
-- The model runs entirely in your browser (a Web Worker). The title you type and the
-  generated text never leave your device.
+- The model runs entirely in your browser (a Web Worker). The messages you write to the
+  clerk and the replies never leave your device and are not stored; reloading the page
+  clears the conversation.
 - The page loads only its own files (HTML, JavaScript, CSS, language files and the
   model). It makes no requests to any other server.
 - The only thing stored is your language choice, in your browser's `localStorage`
