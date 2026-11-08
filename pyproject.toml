@@ -1,0 +1,7 @@
+[project]
+name = "tinylaw"
+version = "0.1.0"
+description = "A tiny language model trained from scratch that writes parody Czech laws."
+license = "GPL-3.0-only"
+requires-python = ">=3.12,<3.13"
+authors = [{ name = "Random Idea Studio" }]
