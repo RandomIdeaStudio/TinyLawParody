@@ -25,10 +25,19 @@ This is an experiment, not a game, and an exception to the studio's Godot rules 
 18. **Start every session with `git pull`** (and look at `git status`). If there are uncommitted local changes or the pull would conflict, stop and ask the user.
 19. **End every task with the sync state.** Say plainly whether the changes are committed and pushed, and to which branch.
 
-## Structure (target; build it as described in `docs/DESIGN_MODEL.md`)
+## Structure
 
-- `tinylaw/`: the Python package. `data.py` (download, clean, mix), `tokenizer.py` (byte-level BPE), `model.py` (GPT), `train.py` (resumable training), `export.py` (writes `web/model/`), `sample.py` (command-line generation).
-- `web/`: the static page for GitHub Pages. `index.html`, `app.js`, `worker.js` (inference off the main thread), `locales/cs.json`, `locales/en.json`, `model/` (exported weights, tokenizer and config; the only model files that are committed).
-- `tests/`: pytest tests and the JavaScript parity test.
+- `tinylaw/`: the Python package. `data.py` (download, clean, mix), `tokenizer.py` (byte-level BPE), `model.py` (GPT), `train.py` (resumable training), `export.py` (writes `web/model/`), `sample.py` (command-line generation), `prompt.py` (law header built from a title; mirrored by `web/prompt.js`).
+- `web/`: the static page for GitHub Pages. `index.html`, `style.css`, `app.js`, `worker.js` (inference off the main thread), `tokenizer.js`, `gpt.js` (forward pass), `prompt.js`, `locales/cs.json`, `locales/en.json`, `model/` (exported weights, tokenizer and config; the only model files that are committed).
+- `tests/`: pytest tests; `tests/js/harness.js` runs the JavaScript side of the parity tests (tokenizer, logits, prompt).
 - `scripts/`: `test.sh`, `test.ps1`, `train-cloud.sh` (the full pipeline with resume).
 - `data/` and `checkpoints/`: local only, ignored by git.
+
+## Commands
+
+- Set up: `python3.12 -m venv .venv && .venv/bin/pip install -r requirements.txt` (Node.js 22 is needed for tests).
+- Tests: `scripts/test.sh` (or `scripts/test.ps1`).
+- Pipeline step by step: `python -m tinylaw.data download|build`, `python -m tinylaw.tokenizer train|encode`, `python -m tinylaw.train --benchmark 120`, `python -m tinylaw.train --epochs N --bf16 [--resume]`, `python -m tinylaw.export`, `python -m tinylaw.sample "Zákon o …"`.
+- Whole pipeline with resume: `nohup scripts/train-cloud.sh > checkpoints/pipeline.log 2>&1 &`.
+- Local preview of the page: `python3 -m http.server -d web 8000`.
+- Network hosts the cloud environment needs: `huggingface.co`, `us.aws.cdn.hf.co` (plus `cas-bridge.xethub.hf.co`, `cdn-lfs.hf.co`), `cs.wikisource.org`, `download.pytorch.org`, `download-r2.pytorch.org`. Wikisource rate-limits shared IPs (HTTP 429); the client waits and retries.

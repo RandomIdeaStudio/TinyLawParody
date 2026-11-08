@@ -48,7 +48,7 @@ EXCLUDE_PATTERNS = [
     re.compile(r"^Starobulharské"),
     re.compile(r"^(Uživatel|Wikizdroje|Diskuse|Kategorie|Autor|Šablona|Nápověda):"),
 ]
-PD_LICENCES = {"PD old 70", "PD old 80", "PD old 100", "PD-old-70", "PD anon 70"}
+PD_LICENCES = {"PD old 70", "PD old 80", "PD old 100", "PD-old-70", "PD anon 70", "PD traditional"}
 
 VALIDATION_FRACTION = 0.01
 FAIRY_TARGET_SHARE = 0.12  # share of training characters after upsampling
@@ -429,6 +429,7 @@ def clean_html(markup: str) -> str:
     text = "".join(p.parts)
     # paragraphs from HTML keep single newlines inside; join wrapped lines of prose
     text = re.sub(r"(?<=\S)\n(?=\S)", " ", text)
+    text = re.sub(r"(?m)^\s*Index stran\s*$", "", text)  # navigation link of scanned pages
     return normalize_whitespace(text)
 
 
