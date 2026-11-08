@@ -466,7 +466,8 @@ def read_fairy_tales(jsonl_path: Path) -> tuple[list[dict], list[dict]]:
             info = parse_textinfo(rec["wikitext"])
             status = "kept"
             if not licence_ok(info):
-                status = "excluded: licence " + (info.get("LICENCE") or "missing")
+                status = ("excluded: licence " + (info.get("LICENCE") or "missing") + ", translation "
+                          + (info.get("LICENCE-PŘEKLAD") or "missing"))
                 text = ""
             elif re.search(r"\{\{\s*(Rozcestník|Rozcestnik)", rec["wikitext"], re.I):
                 status, text = "excluded: disambiguation", ""
