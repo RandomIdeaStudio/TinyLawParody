@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title data-i18n="app.title"></title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1 data-i18n="app.title"></h1>
+    <nav class="top-actions">
+      <label class="lang">
+        <span data-i18n="lang.label"></span>
+        <select id="lang">
+          <option value="cs" data-i18n="lang.cs"></option>
+          <option value="en" data-i18n="lang.en"></option>
+        </select>
+      </label>
+      <button type="button" id="about-open" class="secondary" data-i18n="about.open"></button>
+    </nav>
+  </header>
+
+  <main>
+    <p class="intro" data-i18n="app.intro"></p>
+
+    <form id="form" class="panel" autocomplete="off">
+      <label for="title" class="field-label" data-i18n="form.title_label"></label>
+      <input id="title" name="title" type="text" maxlength="160" required
+             data-i18n-placeholder="form.title_placeholder">
+      <div class="examples" role="group" data-i18n-aria-label="form.examples_label">
+        <span data-i18n="form.examples_label" aria-hidden="true"></span>
+        <button type="button" class="chip" data-example="form.example_1" data-i18n="form.example_1"></button>
+        <button type="button" class="chip" data-example="form.example_2" data-i18n="form.example_2"></button>
+        <button type="button" class="chip" data-example="form.example_3" data-i18n="form.example_3"></button>
+      </div>
+
+      <label for="craziness" class="field-label">
+        <span data-i18n="form.craziness_label"></span>
+        <output id="craziness-value" for="craziness"></output>
+      </label>
+      <input id="craziness" type="range" min="0.6" max="1.4" step="0.05" value="0.9">
+      <div class="scale" aria-hidden="true">
+        <span data-i18n="form.craziness_low"></span>
+        <span data-i18n="form.craziness_high"></span>
+      </div>
+
+      <div class="buttons">
+        <button type="submit" id="generate" data-i18n="form.generate"></button>
+        <button type="button" id="again" class="secondary" data-i18n="form.again" disabled></button>
+        <button type="button" id="stop" class="secondary" data-i18n="form.stop" disabled></button>
+      </div>
+    </form>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <section class="result" aria-labelledby="result-heading">
+      <h2 id="result-heading" data-i18n="output.heading"></h2>
+      <p class="disclaimer" id="disclaimer">
+        <strong data-i18n="disclaimer.label"></strong>
+        <span data-i18n="disclaimer.text"></span>
+      </p>
+      <article id="output" class="output" tabindex="0" aria-describedby="disclaimer"
+               data-i18n-aria-label="output.label"></article>
+    </section>
+  </main>
+
+  <dialog id="about" aria-labelledby="about-heading">
+    <h2 id="about-heading" data-i18n="about.heading"></h2>
+    <p><span data-i18n="about.version"></span> <span id="version">–</span></p>
+    <p data-i18n="about.description"></p>
+    <p data-i18n="about.copyright"></p>
+    <p data-i18n="about.licence"></p>
+    <h3 data-i18n="about.sources_heading"></h3>
+    <ul>
+      <li data-i18n="about.source_laws"></li>
+      <li data-i18n="about.source_fairy"></li>
+    </ul>
+    <h3 data-i18n="about.privacy_heading"></h3>
+    <p data-i18n="about.privacy"></p>
+    <p class="disclaimer"><strong data-i18n="disclaimer.label"></strong>
+      <span data-i18n="disclaimer.text"></span></p>
+    <form method="dialog"><button data-i18n="about.close"></button></form>
+  </dialog>
+
+  <script src="prompt.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

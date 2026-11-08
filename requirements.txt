@@ -1,0 +1,7 @@
+# Exact pins (Python 3.12). CPU-only PyTorch comes from the PyTorch index.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.15.0+cpu
+numpy==2.5.4
+tokenizers==0.23.3
+requests==2.34.2
+pytest==9.2.0
