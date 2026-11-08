@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title data-i18n="app.title"></title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1 data-i18n="app.title"></h1>
+    <nav class="top-actions">
+      <label class="lang">
+        <span data-i18n="lang.label"></span>
+        <select id="lang">
+          <option value="cs" data-i18n="lang.cs"></option>
+          <option value="en" data-i18n="lang.en"></option>
+        </select>
+      </label>
+      <button type="button" id="about-open" class="secondary" data-i18n="about.open"></button>
+    </nav>
+  </header>
+
+  <main>
+    <p class="intro" data-i18n="app.intro"></p>
+    <p class="disclaimer" id="disclaimer">
+      <strong data-i18n="disclaimer.label"></strong>
+      <span data-i18n="disclaimer.text"></span>
+    </p>
+
+    <section class="chat" aria-labelledby="chat-heading">
+      <h2 id="chat-heading" class="visually-hidden" data-i18n="chat.label"></h2>
+      <ol id="messages" class="messages" aria-describedby="disclaimer"></ol>
+      <p class="memory-note" data-i18n="chat.note_memory"></p>
+    </section>
+
+    <form id="composer" class="composer panel" autocomplete="off">
+      <div class="examples" role="group" data-i18n-aria-label="chat.examples_label">
+        <span data-i18n="chat.examples_label" aria-hidden="true"></span>
+        <button type="button" class="chip" data-example="chat.example_1" data-i18n="chat.example_1"></button>
+        <button type="button" class="chip" data-example="chat.example_2" data-i18n="chat.example_2"></button>
+        <button type="button" class="chip" data-example="chat.example_3" data-i18n="chat.example_3"></button>
+      </div>
+      <label for="message" class="visually-hidden" data-i18n="chat.input_label"></label>
+      <div class="compose-row">
+        <textarea id="message" rows="2" maxlength="300" required
+                  data-i18n-placeholder="chat.placeholder"></textarea>
+        <button type="submit" id="send" data-i18n="chat.send"></button>
+      </div>
+      <div class="buttons">
+        <button type="button" id="again" class="secondary" data-i18n="chat.again" disabled></button>
+        <button type="button" id="stop" class="secondary" data-i18n="chat.stop" disabled></button>
+        <button type="button" id="clear" class="secondary" data-i18n="chat.clear"></button>
+      </div>
+      <details class="settings">
+        <summary data-i18n="settings.heading"></summary>
+        <label for="craziness" class="field-label">
+          <span data-i18n="form.craziness_label"></span>
+          <output id="craziness-value" for="craziness"></output>
+        </label>
+        <input id="craziness" type="range" min="0.6" max="1.4" step="0.05" value="0.9">
+        <div class="scale" aria-hidden="true">
+          <span data-i18n="form.craziness_low"></span>
+          <span data-i18n="form.craziness_high"></span>
+        </div>
+      </details>
+    </form>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <!-- the finished reply, read out once by screen readers (the bubbles update while typing) -->
+    <p id="announce" class="visually-hidden" aria-live="polite"></p>
+  </main>
+
+  <dialog id="about" aria-labelledby="about-heading">
+    <h2 id="about-heading" data-i18n="about.heading"></h2>
+    <p><span data-i18n="about.version"></span> <span id="version">–</span></p>
+    <p data-i18n="about.description"></p>
+    <p data-i18n="about.copyright"></p>
+    <p data-i18n="about.licence"></p>
+    <h3 data-i18n="about.sources_heading"></h3>
+    <ul>
+      <li data-i18n="about.source_laws"></li>
+      <li data-i18n="about.source_fairy"></li>
+    </ul>
+    <h3 data-i18n="about.privacy_heading"></h3>
+    <p data-i18n="about.privacy"></p>
+    <p class="disclaimer"><strong data-i18n="disclaimer.label"></strong>
+      <span data-i18n="disclaimer.text"></span></p>
+    <form method="dialog"><button data-i18n="about.close"></button></form>
+  </dialog>
+
+  <script src="prompt.js"></script>
+  <script src="chat.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+# Downloaded datasets and training state (never commit)
+data/
+checkpoints/
+*.pt
+*.ckpt
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Node (parity test)
+node_modules/
+
+# Secrets
+.env
+*.key
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

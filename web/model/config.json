@@ -1,0 +1,673 @@
+{
+ "format": "tinylaw-f16-v1",
+ "version": "0.1.0",
+ "model": {
+  "vocab_size": 8192,
+  "context": 256,
+  "n_layer": 6,
+  "n_embd": 320,
+  "n_head": 5,
+  "layer_norm_eps": 1e-05
+ },
+ "params": 10101760,
+ "tensors": [
+  {
+   "name": "wte.weight",
+   "shape": [
+    8192,
+    320
+   ],
+   "offset": 0,
+   "length": 2621440
+  },
+  {
+   "name": "wpe.weight",
+   "shape": [
+    256,
+    320
+   ],
+   "offset": 5242880,
+   "length": 81920
+  },
+  {
+   "name": "blocks.0.ln1.weight",
+   "shape": [
+    320
+   ],
+   "offset": 5406720,
+   "length": 320
+  },
+  {
+   "name": "blocks.0.ln1.bias",
+   "shape": [
+    320
+   ],
+   "offset": 5407360,
+   "length": 320
+  },
+  {
+   "name": "blocks.0.qkv.weight",
+   "shape": [
+    960,
+    320
+   ],
+   "offset": 5408000,
+   "length": 307200
+  },
+  {
+   "name": "blocks.0.qkv.bias",
+   "shape": [
+    960
+   ],
+   "offset": 6022400,
+   "length": 960
+  },
+  {
+   "name": "blocks.0.proj.weight",
+   "shape": [
+    320,
+    320
+   ],
+   "offset": 6024320,
+   "length": 102400
+  },
+  {
+   "name": "blocks.0.proj.bias",
+   "shape": [
+    320
+   ],
+   "offset": 6229120,
+   "length": 320
+  },
+  {
+   "name": "blocks.0.ln2.weight",
+   "shape": [
+    320
+   ],
+   "offset": 6229760,
+   "length": 320
+  },
+  {
+   "name": "blocks.0.ln2.bias",
+   "shape": [
+    320
+   ],
+   "offset": 6230400,
+   "length": 320
+  },
+  {
+   "name": "blocks.0.fc.weight",
+   "shape": [
+    1280,
+    320
+   ],
+   "offset": 6231040,
+   "length": 409600
+  },
+  {
+   "name": "blocks.0.fc.bias",
+   "shape": [
+    1280
+   ],
+   "offset": 7050240,
+   "length": 1280
+  },
+  {
+   "name": "blocks.0.fc_out.weight",
+   "shape": [
+    320,
+    1280
+   ],
+   "offset": 7052800,
+   "length": 409600
+  },
+  {
+   "name": "blocks.0.fc_out.bias",
+   "shape": [
+    320
+   ],
+   "offset": 7872000,
+   "length": 320
+  },
+  {
+   "name": "blocks.1.ln1.weight",
+   "shape": [
+    320
+   ],
+   "offset": 7872640,
+   "length": 320
+  },
+  {
+   "name": "blocks.1.ln1.bias",
+   "shape": [
+    320
+   ],
+   "offset": 7873280,
+   "length": 320
+  },
+  {
+   "name": "blocks.1.qkv.weight",
+   "shape": [
+    960,
+    320
+   ],
+   "offset": 7873920,
+   "length": 307200
+  },
+  {
+   "name": "blocks.1.qkv.bias",
+   "shape": [
+    960
+   ],
+   "offset": 8488320,
+   "length": 960
+  },
+  {
+   "name": "blocks.1.proj.weight",
+   "shape": [
+    320,
+    320
+   ],
+   "offset": 8490240,
+   "length": 102400
+  },
+  {
+   "name": "blocks.1.proj.bias",
+   "shape": [
+    320
+   ],
+   "offset": 8695040,
+   "length": 320
+  },
+  {
+   "name": "blocks.1.ln2.weight",
+   "shape": [
+    320
+   ],
+   "offset": 8695680,
+   "length": 320
+  },
+  {
+   "name": "blocks.1.ln2.bias",
+   "shape": [
+    320
+   ],
+   "offset": 8696320,
+   "length": 320
+  },
+  {
+   "name": "blocks.1.fc.weight",
+   "shape": [
+    1280,
+    320
+   ],
+   "offset": 8696960,
+   "length": 409600
+  },
+  {
+   "name": "blocks.1.fc.bias",
+   "shape": [
+    1280
+   ],
+   "offset": 9516160,
+   "length": 1280
+  },
+  {
+   "name": "blocks.1.fc_out.weight",
+   "shape": [
+    320,
+    1280
+   ],
+   "offset": 9518720,
+   "length": 409600
+  },
+  {
+   "name": "blocks.1.fc_out.bias",
+   "shape": [
+    320
+   ],
+   "offset": 10337920,
+   "length": 320
+  },
+  {
+   "name": "blocks.2.ln1.weight",
+   "shape": [
+    320
+   ],
+   "offset": 10338560,
+   "length": 320
+  },
+  {
+   "name": "blocks.2.ln1.bias",
+   "shape": [
+    320
+   ],
+   "offset": 10339200,
+   "length": 320
+  },
+  {
+   "name": "blocks.2.qkv.weight",
+   "shape": [
+    960,
+    320
+   ],
+   "offset": 10339840,
+   "length": 307200
+  },
+  {
+   "name": "blocks.2.qkv.bias",
+   "shape": [
+    960
+   ],
+   "offset": 10954240,
+   "length": 960
+  },
+  {
+   "name": "blocks.2.proj.weight",
+   "shape": [
+    320,
+    320
+   ],
+   "offset": 10956160,
+   "length": 102400
+  },
+  {
+   "name": "blocks.2.proj.bias",
+   "shape": [
+    320
+   ],
+   "offset": 11160960,
+   "length": 320
+  },
+  {
+   "name": "blocks.2.ln2.weight",
+   "shape": [
+    320
+   ],
+   "offset": 11161600,
+   "length": 320
+  },
+  {
+   "name": "blocks.2.ln2.bias",
+   "shape": [
+    320
+   ],
+   "offset": 11162240,
+   "length": 320
+  },
+  {
+   "name": "blocks.2.fc.weight",
+   "shape": [
+    1280,
+    320
+   ],
+   "offset": 11162880,
+   "length": 409600
+  },
+  {
+   "name": "blocks.2.fc.bias",
+   "shape": [
+    1280
+   ],
+   "offset": 11982080,
+   "length": 1280
+  },
+  {
+   "name": "blocks.2.fc_out.weight",
+   "shape": [
+    320,
+    1280
+   ],
+   "offset": 11984640,
+   "length": 409600
+  },
+  {
+   "name": "blocks.2.fc_out.bias",
+   "shape": [
+    320
+   ],
+   "offset": 12803840,
+   "length": 320
+  },
+  {
+   "name": "blocks.3.ln1.weight",
+   "shape": [
+    320
+   ],
+   "offset": 12804480,
+   "length": 320
+  },
+  {
+   "name": "blocks.3.ln1.bias",
+   "shape": [
+    320
+   ],
+   "offset": 12805120,
+   "length": 320
+  },
+  {
+   "name": "blocks.3.qkv.weight",
+   "shape": [
+    960,
+    320
+   ],
+   "offset": 12805760,
+   "length": 307200
+  },
+  {
+   "name": "blocks.3.qkv.bias",
+   "shape": [
+    960
+   ],
+   "offset": 13420160,
+   "length": 960
+  },
+  {
+   "name": "blocks.3.proj.weight",
+   "shape": [
+    320,
+    320
+   ],
+   "offset": 13422080,
+   "length": 102400
+  },
+  {
+   "name": "blocks.3.proj.bias",
+   "shape": [
+    320
+   ],
+   "offset": 13626880,
+   "length": 320
+  },
+  {
+   "name": "blocks.3.ln2.weight",
+   "shape": [
+    320
+   ],
+   "offset": 13627520,
+   "length": 320
+  },
+  {
+   "name": "blocks.3.ln2.bias",
+   "shape": [
+    320
+   ],
+   "offset": 13628160,
+   "length": 320
+  },
+  {
+   "name": "blocks.3.fc.weight",
+   "shape": [
+    1280,
+    320
+   ],
+   "offset": 13628800,
+   "length": 409600
+  },
+  {
+   "name": "blocks.3.fc.bias",
+   "shape": [
+    1280
+   ],
+   "offset": 14448000,
+   "length": 1280
+  },
+  {
+   "name": "blocks.3.fc_out.weight",
+   "shape": [
+    320,
+    1280
+   ],
+   "offset": 14450560,
+   "length": 409600
+  },
+  {
+   "name": "blocks.3.fc_out.bias",
+   "shape": [
+    320
+   ],
+   "offset": 15269760,
+   "length": 320
+  },
+  {
+   "name": "blocks.4.ln1.weight",
+   "shape": [
+    320
+   ],
+   "offset": 15270400,
+   "length": 320
+  },
+  {
+   "name": "blocks.4.ln1.bias",
+   "shape": [
+    320
+   ],
+   "offset": 15271040,
+   "length": 320
+  },
+  {
+   "name": "blocks.4.qkv.weight",
+   "shape": [
+    960,
+    320
+   ],
+   "offset": 15271680,
+   "length": 307200
+  },
+  {
+   "name": "blocks.4.qkv.bias",
+   "shape": [
+    960
+   ],
+   "offset": 15886080,
+   "length": 960
+  },
+  {
+   "name": "blocks.4.proj.weight",
+   "shape": [
+    320,
+    320
+   ],
+   "offset": 15888000,
+   "length": 102400
+  },
+  {
+   "name": "blocks.4.proj.bias",
+   "shape": [
+    320
+   ],
+   "offset": 16092800,
+   "length": 320
+  },
+  {
+   "name": "blocks.4.ln2.weight",
+   "shape": [
+    320
+   ],
+   "offset": 16093440,
+   "length": 320
+  },
+  {
+   "name": "blocks.4.ln2.bias",
+   "shape": [
+    320
+   ],
+   "offset": 16094080,
+   "length": 320
+  },
+  {
+   "name": "blocks.4.fc.weight",
+   "shape": [
+    1280,
+    320
+   ],
+   "offset": 16094720,
+   "length": 409600
+  },
+  {
+   "name": "blocks.4.fc.bias",
+   "shape": [
+    1280
+   ],
+   "offset": 16913920,
+   "length": 1280
+  },
+  {
+   "name": "blocks.4.fc_out.weight",
+   "shape": [
+    320,
+    1280
+   ],
+   "offset": 16916480,
+   "length": 409600
+  },
+  {
+   "name": "blocks.4.fc_out.bias",
+   "shape": [
+    320
+   ],
+   "offset": 17735680,
+   "length": 320
+  },
+  {
+   "name": "blocks.5.ln1.weight",
+   "shape": [
+    320
+   ],
+   "offset": 17736320,
+   "length": 320
+  },
+  {
+   "name": "blocks.5.ln1.bias",
+   "shape": [
+    320
+   ],
+   "offset": 17736960,
+   "length": 320
+  },
+  {
+   "name": "blocks.5.qkv.weight",
+   "shape": [
+    960,
+    320
+   ],
+   "offset": 17737600,
+   "length": 307200
+  },
+  {
+   "name": "blocks.5.qkv.bias",
+   "shape": [
+    960
+   ],
+   "offset": 18352000,
+   "length": 960
+  },
+  {
+   "name": "blocks.5.proj.weight",
+   "shape": [
+    320,
+    320
+   ],
+   "offset": 18353920,
+   "length": 102400
+  },
+  {
+   "name": "blocks.5.proj.bias",
+   "shape": [
+    320
+   ],
+   "offset": 18558720,
+   "length": 320
+  },
+  {
+   "name": "blocks.5.ln2.weight",
+   "shape": [
+    320
+   ],
+   "offset": 18559360,
+   "length": 320
+  },
+  {
+   "name": "blocks.5.ln2.bias",
+   "shape": [
+    320
+   ],
+   "offset": 18560000,
+   "length": 320
+  },
+  {
+   "name": "blocks.5.fc.weight",
+   "shape": [
+    1280,
+    320
+   ],
+   "offset": 18560640,
+   "length": 409600
+  },
+  {
+   "name": "blocks.5.fc.bias",
+   "shape": [
+    1280
+   ],
+   "offset": 19379840,
+   "length": 1280
+  },
+  {
+   "name": "blocks.5.fc_out.weight",
+   "shape": [
+    320,
+    1280
+   ],
+   "offset": 19382400,
+   "length": 409600
+  },
+  {
+   "name": "blocks.5.fc_out.bias",
+   "shape": [
+    320
+   ],
+   "offset": 20201600,
+   "length": 320
+  },
+  {
+   "name": "ln_f.weight",
+   "shape": [
+    320
+   ],
+   "offset": 20202240,
+   "length": 320
+  },
+  {
+   "name": "ln_f.bias",
+   "shape": [
+    320
+   ],
+   "offset": 20202880,
+   "length": 320
+  }
+ ],
+ "prompt": {
+  "template": "Zákon č. {number}/{year} Sb.\n\n{title}\n\nVyhlášeno {date}, datum účinnosti {date}, částka {part}/{year}\nAktuální znění od {date}\n\n{number}\n\nZÁKON\n\nze dne {date_words},\n\n{subject}\n\nParlament se usnesl na tomto zákoně České republiky:\n\n§ 1\n\n",
+  "months_genitive": [
+   "ledna",
+   "února",
+   "března",
+   "dubna",
+   "května",
+   "června",
+   "července",
+   "srpna",
+   "září",
+   "října",
+   "listopadu",
+   "prosince"
+  ]
+ },
+ "sampling": {
+  "temperature_min": 0.6,
+  "temperature_max": 1.4,
+  "temperature_default": 0.9,
+  "top_k": 40,
+  "max_new_tokens": 400
+ }
+}
