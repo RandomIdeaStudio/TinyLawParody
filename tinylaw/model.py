@@ -1,6 +1,6 @@
 """A plain GPT-2 style decoder (pre-LayerNorm, learned positions, tied embeddings).
 
-Kept deliberately simple so that `web/gpt.js` can mirror it exactly.
+Kept deliberately simple so that `web/transformer.js` can mirror it exactly.
 """
 
 from __future__ import annotations

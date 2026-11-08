@@ -1,7 +1,7 @@
 // Inference off the main thread. Loads web/model/*, then streams generated text.
 /* global importScripts, TinyTokenizer, TinyGPTLib, TinyPrompt */
 "use strict";
-importScripts("tokenizer.js", "gpt.js", "prompt.js");
+importScripts("tokenizer.js", "transformer.js", "prompt.js");
 
 let model = null;
 let tokenizer = null;

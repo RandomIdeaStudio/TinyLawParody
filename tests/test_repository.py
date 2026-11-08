@@ -60,6 +60,13 @@ def test_requirements_are_pinned():
             assert re.fullmatch(r"[A-Za-z0-9_.\-]+==[A-Za-z0-9_.+\-]+", line), line
 
 
+def test_no_ad_blocker_file_names():
+    # Ad blockers block files by name; gpt.js (Google Publisher Tag) once stopped the model loading.
+    blocked = re.compile(r"(gpt|ads?|adsbygoogle|analytics|tracking|tracker|pixel|banner)\.js$", re.I)
+    for p in WEB.rglob("*"):
+        assert not blocked.search(p.name), f"{p.name} may be blocked by ad blockers"
+
+
 def test_no_external_requests_in_page():
     for p in list(WEB.glob("*.html")) + list(WEB.glob("*.js")) + list(WEB.glob("*.css")):
         text = p.read_text(encoding="utf-8")

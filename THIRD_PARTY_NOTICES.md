@@ -52,7 +52,7 @@ trained model in `web/model/` is derived from them and is distributed under GPL-
 
 ## JavaScript
 
-None. The tokenizer (`web/tokenizer.js`) and the model forward pass (`web/gpt.js`) are
+None. The tokenizer (`web/tokenizer.js`) and the model forward pass (`web/transformer.js`) are
 our own implementations. The byte-to-unicode mapping and the pre-tokenisation pattern
 follow the published GPT-2 byte-level BPE scheme.
 

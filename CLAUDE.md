@@ -28,7 +28,7 @@ This is an experiment, not a game, and an exception to the studio's Godot rules 
 ## Structure
 
 - `tinylaw/`: the Python package. `data.py` (download, clean, mix), `tokenizer.py` (byte-level BPE), `model.py` (GPT), `train.py` (resumable training), `export.py` (writes `web/model/`), `sample.py` (command-line generation), `prompt.py` (law header built from a title; mirrored by `web/prompt.js`).
-- `web/`: the static page for GitHub Pages. `index.html`, `style.css`, `app.js`, `worker.js` (inference off the main thread), `tokenizer.js`, `gpt.js` (forward pass), `prompt.js`, `locales/cs.json`, `locales/en.json`, `model/` (exported weights, tokenizer and config; the only model files that are committed).
+- `web/`: the static page for GitHub Pages. `index.html`, `style.css`, `app.js`, `worker.js` (inference off the main thread), `tokenizer.js`, `transformer.js` (forward pass), `prompt.js`, `locales/cs.json`, `locales/en.json`, `model/` (exported weights, tokenizer and config; the only model files that are committed). Never give a web file a name that ad blockers block (`gpt.js`, `ads.js`, `analytics.js`, `track*.js` and similar): `gpt.js` was blocked as the Google Publisher Tag and the page never loaded the model.
 - `tests/`: pytest tests; `tests/js/harness.js` runs the JavaScript side of the parity tests (tokenizer, logits, prompt).
 - `scripts/`: `test.sh`, `test.ps1`, `train-cloud.sh` (the full pipeline with resume).
 - `data/` and `checkpoints/`: local only, ignored by git.

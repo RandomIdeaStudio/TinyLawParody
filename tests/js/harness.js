@@ -8,7 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const web = path.join(__dirname, "..", "..", "web");
 const { BPETokenizer } = require(path.join(web, "tokenizer.js"));
-const { TinyGPT } = require(path.join(web, "gpt.js"));
+const { TinyGPT } = require(path.join(web, "transformer.js"));
 const { buildPrompt } = require(path.join(web, "prompt.js"));
 
 function readJSON(p) {
