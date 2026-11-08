@@ -10,3 +10,5 @@ Versions follow SemVer. The version lives only in `pyproject.toml`.
 - Web page: inference in a Web Worker, Czech and English, craziness slider, Stop, About, parody disclaimer.
 - Tests (including JavaScript parity), CI, `scripts/test.sh`, `scripts/test.ps1`, `scripts/train-cloud.sh`.
 - `THIRD_PARTY_NOTICES.md`, `PRIVACY.md`, training report.
+- The page is a chat with a clerk who answers every message with a legal paragraph; Answer differently, New conversation, examples, settings.
+- The model's script is `transformer.js` (ad blockers blocked `gpt.js`, so the model never loaded).

@@ -1,4 +1,5 @@
-// Page logic: language, controls, About dialog; inference runs in worker.js.
+// Page logic: language, the chat with the clerk, settings, About dialog.
+// Inference runs in worker.js; chat.js turns messages into model requests and replies.
 "use strict";
 
 const LANGS = ["cs", "en"];
@@ -8,8 +9,13 @@ let lang = "en";
 let worker = null;
 let ready = false;
 let generating = false;
-let lastTitle = "";
 let version = "";
+
+// Conversation shown on the page. The clerk does not remember it: each message is handled alone.
+// { role: "user" | "clerk", text, number } ; number = the § shown on a clerk reply.
+const conversation = [];
+let current = null; // the clerk reply being generated: { entry, request, node }
+let lastUserMessage = "";
 
 const $ = (id) => document.getElementById(id);
 
@@ -60,6 +66,7 @@ async function setLanguage(next) {
   }
   $("version").textContent = version || "–";
   updateCraziness();
+  renderConversation();
   if (!ready) setStatus(t("status.loading"));
   else if (!generating) setStatus(t("status.ready"));
 }
@@ -78,27 +85,101 @@ function updateCraziness() {
 
 function setGenerating(on) {
   generating = on;
-  $("generate").disabled = on || !ready;
-  $("again").disabled = on || !ready || !lastTitle;
+  $("send").disabled = on || !ready;
+  $("again").disabled = on || !ready || !lastClerkEntry();
   $("stop").disabled = !on;
-  $("output").setAttribute("aria-busy", on ? "true" : "false");
+  $("clear").disabled = on;
+  $("messages").setAttribute("aria-busy", on ? "true" : "false");
 }
 
 function randomInt(lo, hi) {
   return lo + Math.floor(Math.random() * (hi - lo + 1));
 }
 
-function start(title) {
+function lastClerkEntry() {
+  const last = conversation[conversation.length - 1];
+  return last && last.role === "clerk" && !last.pending ? last : null;
+}
+
+function nextParagraphNumber() {
+  return conversation.filter((m) => m.role === "clerk").length + 1;
+}
+
+// --- rendering ---------------------------------------------------------------
+
+function messageNode(entry) {
+  const li = document.createElement("li");
+  li.className = "msg " + entry.role;
+  const who = document.createElement("span");
+  who.className = "who";
+  who.textContent = entry.role === "user" ? t("chat.you") : t("chat.clerk");
+  const body = document.createElement("p");
+  body.className = "text";
+  if (entry.role === "clerk" && entry.number) {
+    const para = document.createElement("span");
+    para.className = "para";
+    para.textContent = "§ " + entry.number + " ";
+    body.append(para);
+  }
+  const text = document.createElement("span");
+  text.className = "body";
+  text.textContent = entry.pending ? t("chat.typing") : entry.text;
+  body.append(text);
+  li.append(who, body);
+  return li;
+}
+
+function renderConversation() {
+  const list = $("messages");
+  list.textContent = "";
+  list.append(messageNode({ role: "clerk", text: t("chat.welcome") }));
+  for (const entry of conversation) {
+    const node = messageNode(entry);
+    if (entry === (current && current.entry)) current.node = node;
+    list.append(node);
+  }
+  scrollToEnd();
+}
+
+// Scroll to the bottom of the page: the newest message then sits just above the composer
+// (scrolling the message itself would hide it behind the sticky composer).
+function scrollToEnd() {
+  $("status").scrollIntoView({ block: "end", behavior: "auto" });
+}
+
+function updateCurrent(text) {
+  if (!current) return;
+  current.entry.text = text;
+  if (current.node) current.node.querySelector(".body").textContent = text;
+  scrollToEnd();
+}
+
+// --- conversation ------------------------------------------------------------
+
+function ask(rawMessage, { replaceLast = false } = {}) {
   if (!ready || generating) return;
-  lastTitle = title;
-  const now = new Date();
-  const out = $("output");
-  out.textContent = "";
+  const message = String(rawMessage).trim();
+  if (!message) return;
+  if (replaceLast) {
+    conversation.pop(); // drop the previous clerk reply to this message
+  } else {
+    conversation.push({ role: "user", text: message });
+  }
+  lastUserMessage = message;
+  const request = TinyChat.chatRequest(message);
+  const entry = { role: "clerk", text: "", number: nextParagraphNumber(), pending: true };
+  conversation.push(entry);
+  current = { entry, request, node: null };
+  renderConversation();
   setGenerating(true);
   setStatus(t("status.generating"));
+  const now = new Date();
   worker.postMessage({
     type: "generate",
-    title,
+    title: request.title,
+    promptSuffix: request.promptSuffix,
+    stopAt: request.stopAt,
+    maxNewTokens: request.maxNewTokens,
     temperature: Number($("craziness").value),
     seed: randomInt(1, 2147483646),
     promptOptions: {
@@ -111,8 +192,13 @@ function start(title) {
   });
 }
 
-let promptNode = null;
-let textNode = null;
+function finishCurrent(generated, reason) {
+  if (!current) return;
+  current.entry.pending = false;
+  const text = TinyChat.formatReply(current.request.promptSuffix, generated, reason);
+  updateCurrent(text);
+  current = null;
+}
 
 function onWorkerMessage(e) {
   const msg = e.data;
@@ -125,21 +211,23 @@ function onWorkerMessage(e) {
     $("version").textContent = version;
     setGenerating(false);
     setStatus(t("status.ready"));
-  } else if (msg.type === "prompt") {
-    const out = $("output");
-    out.textContent = "";
-    promptNode = document.createElement("span");
-    promptNode.className = "prompt-part";
-    promptNode.textContent = msg.text;
-    textNode = document.createElement("span");
-    out.append(promptNode, textNode);
   } else if (msg.type === "text") {
-    if (textNode) textNode.textContent = msg.text;
+    if (current) {
+      current.entry.pending = false;
+      current.generated = msg.text;
+      updateCurrent(TinyChat.previewReply(current.request.promptSuffix, msg.text));
+    }
   } else if (msg.type === "done") {
+    finishCurrent(current ? current.generated || "" : "", msg.reason);
     setGenerating(false);
-    setStatus(msg.reason === "stopped" ? t("status.stopped") : t("status.done"));
+    setStatus(msg.reason === "stopped" ? t("status.stopped") : t("status.replied"));
   } else if (msg.type === "error") {
     console.error("worker error:", msg.message);
+    if (current) {
+      conversation.pop();
+      current = null;
+      renderConversation();
+    }
     setGenerating(false);
     setStatus(ready ? t("status.error") : t("status.load_error"));
   }
@@ -153,17 +241,33 @@ async function init() {
     setLanguage(e.target.value);
   });
   $("craziness").addEventListener("input", updateCraziness);
-  $("form").addEventListener("submit", (e) => {
+  $("composer").addEventListener("submit", (e) => {
     e.preventDefault();
-    const title = $("title").value.trim();
-    if (title) start(title);
+    const message = $("message").value.trim();
+    if (!message || !ready || generating) return;
+    $("message").value = "";
+    ask(message);
   });
-  $("again").addEventListener("click", () => lastTitle && start(lastTitle));
+  $("message").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey && !e.isComposing) {
+      e.preventDefault();
+      $("composer").requestSubmit();
+    }
+  });
+  $("again").addEventListener("click", () => lastClerkEntry() && ask(lastUserMessage, { replaceLast: true }));
   $("stop").addEventListener("click", () => worker && worker.postMessage({ type: "stop" }));
+  $("clear").addEventListener("click", () => {
+    if (generating) return;
+    conversation.length = 0;
+    lastUserMessage = "";
+    renderConversation();
+    setGenerating(false);
+    $("message").focus();
+  });
   for (const chip of document.querySelectorAll("[data-example]")) {
     chip.addEventListener("click", () => {
-      $("title").value = t(chip.dataset.example);
-      $("title").focus();
+      $("message").value = t(chip.dataset.example);
+      $("message").focus();
     });
   }
   $("about-open").addEventListener("click", () => $("about").showModal());

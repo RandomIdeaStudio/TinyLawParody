@@ -3,6 +3,9 @@
 //   {"cmd": "decode", "tokenizer": path, "ids": [[...], ...]}
 //   {"cmd": "logits", "model_dir": path, "ids": [...]}        -> logits at every position
 //   {"cmd": "prompt", "config": path, "cases": [[title, opts], ...]}
+//   {"cmd": "chat_request", "messages": [...], "random": 0.0}
+//   {"cmd": "chat_format", "cases": [[promptSuffix, generated, reason], ...]}
+//   {"cmd": "chat_openings"}
 "use strict";
 const fs = require("fs");
 const path = require("path");
@@ -10,6 +13,7 @@ const web = path.join(__dirname, "..", "..", "web");
 const { BPETokenizer } = require(path.join(web, "tokenizer.js"));
 const { TinyGPT } = require(path.join(web, "transformer.js"));
 const { buildPrompt } = require(path.join(web, "prompt.js"));
+const chat = require(path.join(web, "chat.js"));
 
 function readJSON(p) {
   return JSON.parse(fs.readFileSync(p, "utf8"));
@@ -32,6 +36,13 @@ if (req.cmd === "encode") {
 } else if (req.cmd === "prompt") {
   const config = readJSON(req.config);
   out = req.cases.map(([title, opts]) => buildPrompt(config.prompt, title, opts));
+} else if (req.cmd === "chat_request") {
+  // fixed "random" value so the chosen opening is predictable
+  out = req.messages.map((m) => chat.chatRequest(m, () => req.random));
+} else if (req.cmd === "chat_format") {
+  out = req.cases.map(([suffix, generated, reason]) => chat.formatReply(suffix, generated, reason));
+} else if (req.cmd === "chat_openings") {
+  out = chat.OPENINGS;
 } else {
   throw new Error("unknown cmd " + req.cmd);
 }

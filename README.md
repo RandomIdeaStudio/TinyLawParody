@@ -1,6 +1,6 @@
 # TinyLawParody
 
-A tiny language model, trained from scratch, that writes **parody Czech laws**. Type an absurd title and the model continues in dead-serious legal style. Everything runs in your browser; nothing is sent anywhere.
+A tiny language model, trained from scratch, that writes **parody Czech laws**. The page is a chat with a clerk: write anything and the clerk answers with a dead-serious legal paragraph (in Czech). Everything runs in your browser; nothing is sent anywhere.
 
 > **Disclaimer.** All generated text is machine-made parody. It is not law, not a quotation of any law and not legal information.
 

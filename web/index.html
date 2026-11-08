@@ -24,46 +24,50 @@
 
   <main>
     <p class="intro" data-i18n="app.intro"></p>
+    <p class="disclaimer" id="disclaimer">
+      <strong data-i18n="disclaimer.label"></strong>
+      <span data-i18n="disclaimer.text"></span>
+    </p>
 
-    <form id="form" class="panel" autocomplete="off">
-      <label for="title" class="field-label" data-i18n="form.title_label"></label>
-      <input id="title" name="title" type="text" maxlength="160" required
-             data-i18n-placeholder="form.title_placeholder">
-      <div class="examples" role="group" data-i18n-aria-label="form.examples_label">
-        <span data-i18n="form.examples_label" aria-hidden="true"></span>
-        <button type="button" class="chip" data-example="form.example_1" data-i18n="form.example_1"></button>
-        <button type="button" class="chip" data-example="form.example_2" data-i18n="form.example_2"></button>
-        <button type="button" class="chip" data-example="form.example_3" data-i18n="form.example_3"></button>
+    <section class="chat" aria-labelledby="chat-heading">
+      <h2 id="chat-heading" class="visually-hidden" data-i18n="chat.label"></h2>
+      <ol id="messages" class="messages" aria-describedby="disclaimer"></ol>
+      <p class="memory-note" data-i18n="chat.note_memory"></p>
+    </section>
+
+    <form id="composer" class="composer panel" autocomplete="off">
+      <div class="examples" role="group" data-i18n-aria-label="chat.examples_label">
+        <span data-i18n="chat.examples_label" aria-hidden="true"></span>
+        <button type="button" class="chip" data-example="chat.example_1" data-i18n="chat.example_1"></button>
+        <button type="button" class="chip" data-example="chat.example_2" data-i18n="chat.example_2"></button>
+        <button type="button" class="chip" data-example="chat.example_3" data-i18n="chat.example_3"></button>
       </div>
-
-      <label for="craziness" class="field-label">
-        <span data-i18n="form.craziness_label"></span>
-        <output id="craziness-value" for="craziness"></output>
-      </label>
-      <input id="craziness" type="range" min="0.6" max="1.4" step="0.05" value="0.9">
-      <div class="scale" aria-hidden="true">
-        <span data-i18n="form.craziness_low"></span>
-        <span data-i18n="form.craziness_high"></span>
+      <label for="message" class="visually-hidden" data-i18n="chat.input_label"></label>
+      <div class="compose-row">
+        <textarea id="message" rows="2" maxlength="300" required
+                  data-i18n-placeholder="chat.placeholder"></textarea>
+        <button type="submit" id="send" data-i18n="chat.send"></button>
       </div>
-
       <div class="buttons">
-        <button type="submit" id="generate" data-i18n="form.generate"></button>
-        <button type="button" id="again" class="secondary" data-i18n="form.again" disabled></button>
-        <button type="button" id="stop" class="secondary" data-i18n="form.stop" disabled></button>
+        <button type="button" id="again" class="secondary" data-i18n="chat.again" disabled></button>
+        <button type="button" id="stop" class="secondary" data-i18n="chat.stop" disabled></button>
+        <button type="button" id="clear" class="secondary" data-i18n="chat.clear"></button>
       </div>
+      <details class="settings">
+        <summary data-i18n="settings.heading"></summary>
+        <label for="craziness" class="field-label">
+          <span data-i18n="form.craziness_label"></span>
+          <output id="craziness-value" for="craziness"></output>
+        </label>
+        <input id="craziness" type="range" min="0.6" max="1.4" step="0.05" value="0.9">
+        <div class="scale" aria-hidden="true">
+          <span data-i18n="form.craziness_low"></span>
+          <span data-i18n="form.craziness_high"></span>
+        </div>
+      </details>
     </form>
 
     <p id="status" class="status" role="status" aria-live="polite"></p>
-
-    <section class="result" aria-labelledby="result-heading">
-      <h2 id="result-heading" data-i18n="output.heading"></h2>
-      <p class="disclaimer" id="disclaimer">
-        <strong data-i18n="disclaimer.label"></strong>
-        <span data-i18n="disclaimer.text"></span>
-      </p>
-      <article id="output" class="output" tabindex="0" aria-describedby="disclaimer"
-               data-i18n-aria-label="output.label"></article>
-    </section>
   </main>
 
   <dialog id="about" aria-labelledby="about-heading">
@@ -85,6 +89,7 @@
   </dialog>
 
   <script src="prompt.js"></script>
+  <script src="chat.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

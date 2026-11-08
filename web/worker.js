@@ -44,6 +44,15 @@ async function load() {
   postMessage({ type: "ready", version: config.version, sampling: config.sampling });
 }
 
+function firstStop(text, stops) {
+  let best = -1;
+  for (const s of stops) {
+    const p = text.indexOf(s);
+    if (p >= 0 && (best < 0 || p < best)) best = p;
+  }
+  return best;
+}
+
 function yieldToEvents() {
   return new Promise((resolve) => setTimeout(resolve, 0));
 }
@@ -52,7 +61,9 @@ async function generate(msg) {
   busy = true;
   stopRequested = false;
   const s = config.sampling;
-  const prompt = TinyPrompt.buildPrompt(config.prompt, msg.title, msg.promptOptions);
+  // promptSuffix: text the model must continue (the chat starts the reply for it).
+  const prompt = TinyPrompt.buildPrompt(config.prompt, msg.title, msg.promptOptions) + (msg.promptSuffix || "");
+  const stopAt = msg.stopAt || [];
   postMessage({ type: "prompt", text: prompt });
   const promptIds = tokenizer.encode(prompt);
   const ctx = config.model.context;
@@ -63,6 +74,7 @@ async function generate(msg) {
   let logits = model.prefill(all);
   let reason = "length";
   let lastText = "";
+  let finalText = null;
   for (let i = 0; i < (msg.maxNewTokens || s.max_new_tokens); i++) {
     if (stopRequested) {
       reason = "stopped";
@@ -75,7 +87,14 @@ async function generate(msg) {
     }
     generated.push(next);
     all.push(next);
-    const text = tokenizer.decode(generated);
+    let text = tokenizer.decode(generated);
+    // stopAt: strings that end the reply (for example the next paragraph); cut before them.
+    const cut = firstStop(text, stopAt);
+    if (cut >= 0) {
+      finalText = text.slice(0, cut);
+      reason = "end";
+      break;
+    }
     // hold back an incomplete multi-byte character
     if (!text.endsWith("�") && text !== lastText) {
       lastText = text;
@@ -89,7 +108,7 @@ async function generate(msg) {
     }
     await yieldToEvents();
   }
-  postMessage({ type: "text", text: tokenizer.decode(generated) });
+  postMessage({ type: "text", text: finalText === null ? tokenizer.decode(generated) : finalText });
   postMessage({ type: "done", reason });
   busy = false;
 }

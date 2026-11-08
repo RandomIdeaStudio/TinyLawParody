@@ -50,8 +50,17 @@ Keep the architecture plain so the JavaScript forward pass stays small and exact
 
 - Export weights as float16 (about 20 MB) plus `tokenizer.json` and `config.json` into `web/model/`. Each committed file must stay under 25 MB.
 - Inference in plain JavaScript in a Web Worker; no external services, nothing leaves the visitor's browser.
-- Page controls: title of the law (text field), "craziness" slider (temperature about 0.6–1.4 with top-k), Generate, Try again, Stop, language switch (cs/en), About.
 - The prompt the page builds must mirror the header format of real laws in the corpus, so the model continues naturally with "§ 1".
+
+### Chat with the clerk (decided with the user on 2026-11-08)
+
+The user wanted to talk to the model instead of entering law titles. The model never saw a conversation, and the available Czech dialogue datasets are non-commercial or of unclear licence (they would conflict with the public GPL-3.0 release), so the model was not retrained. Instead the page is a chat with a clerk who answers every message with a legal paragraph:
+
+- The message becomes the law title `Zákon o vyřízení podání „<message>“` (grammatical for any message).
+- The reply is started for the model: `(1) Podání „<message>“ <opening>`, where the opening is a random official phrase ("se zamítá, neboť", "je přípustné, jen jestliže", …). The prompt must not end with a space: the byte-level BPE joins the space with the next word, and a trailing space produced broken words in tests.
+- Generation stops at the next paragraph or section (`stopAt`) or after 80 tokens; the reply is cut to one or two sentences (legal abbreviations such as "odst." do not end a sentence) and stray closing quotes the model copies from the message are dropped.
+- The clerk does not remember earlier messages; the page says so. Each reply is shown as § 1, § 2, … in order.
+- Controls: message box (Enter sends), Send, Answer differently (replaces the last reply), Stop, New conversation, examples, craziness slider under Settings, language switch, About.
 - A parity test runs the JS forward pass on a fixed input and compares the logits with PyTorch (tolerance for float16).
 
 ## Deliverables of the first version
